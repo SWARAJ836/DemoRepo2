@@ -1,5 +1,6 @@
 package com.swaraj.learningproject4.controller;
 
+import com.swaraj.learningproject4.DTO.CheckoutRequest;
 import com.swaraj.learningproject4.entity.ParkingSpot;
 import com.swaraj.learningproject4.entity.ParkingTicket;
 import com.swaraj.learningproject4.entity.Vehicle;
@@ -60,15 +61,24 @@ public class project4Controller {
     // Controller for Vehicle Check In
     @PostMapping("/checkIn")
     public ResponseEntity<ParkingTicket> checkIn(@RequestBody Vehicle vehicle){
+        System.out.println("Received API request for Check In : " );
         return ResponseEntity.ok(parkingService.checkIn(vehicle));
     }
 
-    // Controller for Vehicle Check Out
+   //  Controller for Vehicle Check Out using Path Variable
     @PostMapping("/checkOut/{ticketId}")
     public ResponseEntity<ParkingTicket> checkOut(@PathVariable String ticketId){
+        System.out.println("Received API request for Check Out : " );
         return ResponseEntity.ok(parkingService.checkOut(ticketId));
     }
 
+    //  Controller for Vehicle Check Out using Request Body
+    @PostMapping("/checkOut2")
+    public ResponseEntity<ParkingTicket> checkOut(@RequestBody CheckoutRequest request){
+        System.out.println("Received API request for Check Out -> ticketId: " + request.getTicketId());
+        return ResponseEntity.ok(parkingService.checkOut(request.getTicketId()));
+
+    }
 
 
 

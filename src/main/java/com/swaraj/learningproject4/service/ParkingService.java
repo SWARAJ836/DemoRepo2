@@ -10,7 +10,9 @@ import com.swaraj.learningproject4.repository.ParkingTicketRepository;
 import com.swaraj.learningproject4.repository.VehicleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -96,7 +98,8 @@ public class ParkingService {
     @Transactional
     public ParkingTicket checkOut(String ticketId) {
 
-        ParkingTicket ticket = pTicketRepo.findById(Long.valueOf(ticketId)).orElseThrow();
+        ParkingTicket ticket = pTicketRepo.findById(ticketId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
         ticket.setExitTime(LocalDateTime.now());
 
         long hours = Duration.between(ticket.getEntryTime(), ticket.getExitTime()).toHours();
