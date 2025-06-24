@@ -26,7 +26,6 @@ public class project4Controller {
     @Autowired
     private StudentService studentService;
 
-
     @GetMapping("users")
     public String Message2()
     {
